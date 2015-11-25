@@ -20,5 +20,6 @@ from monitors_site import views
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', views.home, name='home'),
-    url(r'^details/(?P<hyip_id>.+)/', views.show_hyip),
+    url(r'^details/(?P<hyip_id>.+)/$', views.show_hyip),
+    url(r'^search/$', views.search),
 ]

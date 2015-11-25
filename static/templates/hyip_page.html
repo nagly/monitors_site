@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block content %}
+<p>{{hyip.title|upper}}</p>
+{% for monitor in monitors %}
+<a href="{{monitor.url}}{{monitor.url_hyip_details}}"><img src="{{monitor.url}}{{monitor.url_card}}"></a>
+{% endfor %}
+{% endblock %}

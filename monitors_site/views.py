@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
+from django.db.models import Q
 from monitors.models import Monitor
 from hyips_info.models import Hyips_info
 from hyips.models import Hyip
@@ -27,9 +28,21 @@ def show_hyip(request, hyip_id):
 def search(request):
 	if request.method == 'POST':
 		req = request.POST
-		program_url = req.get('program_url', False)
-		hyip = Hyip.objects.filter(url__icontains='%s' %program_url)
+		program_url = req.get('program_url', False).split()
+		hyip = Hyip.objects.filter(reduce(lambda x, y: x | y, [Q(url__contains=word) for word in program_url]))
 		if hyip.count() == 1:
 			return HttpResponseRedirect('/details/%s/' %hyip[0].id)
 		else:
-			return HttpResponseRedirect('/')
+			return HttpResponseRedirect('/search_results/?q=%s' %program_url[0])
+	else:
+		return HttpResponseRedirect('/')
+
+def search_results(request):
+	context = {}
+	template = 'search_results.html'
+	if request.method == 'GET':
+		req = request.GET
+		program_url = req.get('q').split()
+		hyips = Hyip.objects.filter(reduce(lambda x, y: x | y, [Q(url__contains=word) for word in program_url]))
+		context = {'hyips':hyips}
+	return render(request, template, context)

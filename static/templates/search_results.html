@@ -1,0 +1,4 @@
+{% extends "base.html" %}
+{% block content %}
+{% if hyips %}{% for hyip in hyips %}<p>{{hyip.title}}</p>{% endfor %}{% else %}<p>Nothing to show</p>{% endif %}
+{% endblock %}

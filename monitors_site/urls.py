@@ -22,4 +22,5 @@ urlpatterns = [
     url(r'^$', views.home, name='home'),
     url(r'^details/(?P<hyip_id>.+)/$', views.show_hyip),
     url(r'^search/$', views.search),
+    url(r'^search_results/$', views.search_results),
 ]

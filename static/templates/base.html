@@ -72,8 +72,8 @@
               <div class="nbox-title"><h5>Search programs</h5></div>
               <div class="nbox-content">
                 <div class="nbox-element">
-                  <form>
-                    <input type="text" class="form-control" placeholder="Program URL">
+                  <form action="/search/" method="POST">{% csrf_token %}
+                    <input type="text" name="program_url" class="form-control" placeholder="Program URL">
                     <button type="submit" class="btn btn-green btn-md btn-block" style="margin-top:5px;"><span class="glyphicon glyphicon-search" style="font-size:16px"></span><span> Search</span></button>
                   </form>
                 </div>

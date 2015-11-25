@@ -7,7 +7,7 @@ class Hyips_infoAdmin(admin.ModelAdmin):
 	list_display = ('hyip_title','monitor_url','listing_id','status')
 
 	def hyip_title(self, instance):
-		return instance.hiyp_id.hiyp_title
+		return instance.hyip_id.title
 
 	def monitor_url(self, instance):
 		return instance.monitor_id.url

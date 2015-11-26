@@ -29,13 +29,15 @@ def show_hyip(request, hyip_id):
 
 def search(request):
 	if request.method == 'POST':
-		req = request.POST
-		program_url = req.get('program_url', False).split()
-		hyip = Hyip.objects.filter(reduce(lambda x, y: x | y, [Q(url__contains=word) for word in program_url]))
-		if hyip.count() == 1:
-			return HttpResponseRedirect('/details/%s/' %hyip[0].id)
+		keyword = request.POST.get('program_url', False).split()
+		if len(keyword) != 0:
+			hyip = Hyip.objects.filter(reduce(lambda x, y: x | y, [Q(url__contains=word) for word in keyword]))
+			if hyip.count() == 1:
+				return HttpResponseRedirect('/details/%s/' %hyip[0].id)
+			else:
+				return HttpResponseRedirect('/search_results/?q=%s' %'+'.join(keyword))
 		else:
-			return HttpResponseRedirect('/search_results/?q=%s' %program_url[0])
+			return HttpResponseRedirect('/search_results/?q=')
 	else:
 		return HttpResponseRedirect('/')
 
@@ -43,8 +45,10 @@ def search_results(request):
 	context = {}
 	template = 'search_results.html'
 	if request.method == 'GET':
-		req = request.GET
-		program_url = req.get('q').split()
-		hyips = Hyip.objects.filter(reduce(lambda x, y: x | y, [Q(url__contains=word) for word in program_url]))
+		keyword = request.GET.get('q').split()
+		if len(keyword) != 0:
+			hyips = Hyip.objects.filter(reduce(lambda x, y: x | y, [Q(url__contains=word) for word in keyword]))
+		else:
+			hyips = None
 		context = {'hyips':hyips}
 	return render(request, template, context)

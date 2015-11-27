@@ -2,16 +2,10 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.db.models import Q
 from monitors.models import Monitor
-from hyips_info.models import Hyips_info
-from hyips.models import Hyip
+from hyips.models import Hyip, Hyips_info
 def home(request):
 	context = {}
 	template = 'home.html'
-	# if request.method == 'POST':
-	# 	req = request.POST
-	# 	program_url = req.get('program_url', False)
-	# 	hyip = Hyip.objects.filter(url__icontains='%s' %program_url)
-	# 	context = {'hyip': hyip}
 	return render(request, template, context)
 
 def show_hyip(request, hyip_id):

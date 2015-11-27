@@ -8,3 +8,15 @@ class Hyip(models.Model):
 
 	def __unicode__(self):
 		return smart_unicode(self.title)
+
+class Hyips_info(models.Model):
+	hyip_id = models.ForeignKey('Hyip')
+	monitor_id = models.ForeignKey('monitors.Monitor')
+	listing_id = models.CharField(max_length=50)
+	status = models.CharField(max_length=1)
+
+	def hyip_title(self):
+		return self.hyip_id.title
+
+	def monitor_url(self):
+		return self.monitor_id.url

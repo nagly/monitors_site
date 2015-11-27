@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'hyips',
     'monitors',
+    'advertisements',
 )
 
 MIDDLEWARE_CLASSES = (

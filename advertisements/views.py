@@ -10,6 +10,7 @@ def advertise(request):
 				slots[i] = left_ads[j]
 	if isinstance(slots[len(slots)-1], int) == False:
 		slots.append(int(slots[len(slots)-1].price + 2))
+	slots = slots[::-1]
 	context = {'slots':slots}
 	template = "advertise.html"
 	return render(request, template, context)

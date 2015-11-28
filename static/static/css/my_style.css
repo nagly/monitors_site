@@ -219,3 +219,14 @@ footer{
   border-top:1px solid #101010;
   margin-top:10px;
 }
+.notfreeslot {
+  background:#F3D2D2;
+  color:#800000;
+}
+.freeslot {
+  background:#c0e7d2;
+  color:#005a2a;
+}
+.middle {
+  vertical-align:middle !important;
+}

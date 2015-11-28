@@ -1,3 +1,4 @@
+{% load template_filters %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -22,7 +23,7 @@
     <div id="top-gradient">
       <div class="container">
         <div class="col-sm-5 hidden-xs"><img src="/static/img/logo_alfa.png" style="width:100%; max-width:300px;margin-bottom:5px;"/></div>
-        <div class="col-xs-12 col-sm-7 text-center"><img src="/static/img/small.gif" class="media-object a468"><div class="clearfix"></div>yolo</div>
+        <div class="col-xs-12 col-sm-7 text-center"><img src="/static/img/tlo4.png" class="media-object a468"><div class="clearfix"></div>yolo</div>
       </div>
     </div>
     
@@ -47,7 +48,7 @@
           <ul class="nav navbar-nav">
             <li><a href="#">New HYIPs<span class="sr-only">(current)</span></a></li>
             <li><a href="#">Blacklist</a></li>
-            <li><a href="/advertise/">Advertise</a></li>
+            <li><a href="#">Add banner</a></li>
             <li><a href="#">Add program</a></li>
           </ul>
         </div><!-- /.navbar-collapse -->
@@ -59,9 +60,10 @@
 
     	<div class="col-xs-12 col-sm-2 text-center" style="background: transparent;">
         <div class="panel panel-primary fill" style="background: transparent;">
-          <img src="/static/img/125x125.png" class="a120" alt="">
-          <img src="/static/img/125.gif" class="a120" alt="">
-          <a href="#"><img src="/static/img/125.gif" class="a120" alt=""></a>
+          {% for slot in slots %}
+          {% if slot.price %}<a href="#">{{slot.price}}</a>{% else %}<a href="#">{{slot}}</a>{% endif %}
+          {% endfor %}
+          
           <div class="text-center buy-banner"><a href="#"><span class="glyphicon glyphicon-shopping-cart" style="font-size:14px;"></span> buy ads here</a></div>
         </div>
       </div>

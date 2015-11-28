@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'hyips',
     'monitors',
     'advertisements',
+    'advertisements.templatetags.templ_filters',
 )
 
 MIDDLEWARE_CLASSES = (

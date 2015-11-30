@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<p>Place: {{place}}</p>
+<p>Price: {{price|floatformat:"2"}}</p>
+<form action="" enctype="multipart/form-data" method="post">{% csrf_token %}
+  {{ form.as_p }}
+  <input type="hidden" value="{{price}}" name="price"></input>
+  <input type="hidden" value="{{place}}" name="place"></input>
+  <input type="submit" value="Next step" class="btn btn-lg btn-primary btn-block" />
+</form>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+  $(document).ready(function(){
+      $(".errorlist").hide();
+  });
+</script>
+{% endblock %}

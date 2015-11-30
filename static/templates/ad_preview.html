@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<p>Duration (weeks): {{ad.weeks}}</p>
+<p>Summary: {{ad.price}}</p>
+<p>Preview:</p>
+<p><img src="/media/{{ad.image}}"/></p>
+<div class="row">
+    <div class="col-xs-6">
+        <form action="/delete_ad/{{ad.id}}/" method="POST">{% csrf_token %}
+            <input type="submit" name="" value="Back to Homepage" class="btn btn-lg btn-default btn-block">
+        </form>
+    </div>
+    <div class="col-xs-6">
+        <form action="https://perfectmoney.is/api/step1.asp" method="POST">{% csrf_token %}
+        <p>
+            <input type="hidden" name="PAYEE_ACCOUNT" value="U5862586">
+            <input type="hidden" name="PAYEE_NAME" value="HyipWeb.com">
+            <input type="hidden" name="PAYMENT_AMOUNT" value="{{ad.price|floatformat:2}}"> <!-- {{price_pm|floatformat:2}} -->
+            <input type="hidden" name="PAYMENT_UNITS" value="USD">
+            <input type="hidden" name="PAYMENT_ID" value="{{ad.unique_id}}">
+            <input type="hidden" name="STATUS_URL" value="/status/">
+            <input type="hidden" name="PAYMENT_URL" value="/payment/">
+            <input type="hidden" name="NOPAYMENT_URL" value="/nopayment/{{ad.unique_id}}/">
+            <input type="hidden" name="SUGGESTED_MEMO" value="HyipWeb.com advertisement">
+            <input type="submit" name="PAYMENT_METHOD" value="Continue with Perfect Money" class="btn btn-lg btn-primary btn-block">
+        </p>
+        </form>
+    </div>
+</div>
+{% endblock %}

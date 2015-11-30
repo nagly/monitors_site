@@ -6,13 +6,19 @@
   {% for slot in slots %}
   {% if slot.price %}
   <tr class="notfreeslot">
-    <td class="middle"><h4><strong>${{slot.price}}/w</strong></h4></td>
+    <td class="middle"><h4><strong>${{slot.price|floatformat:"0"}}/w</strong></h4></td>
     <td class="middle">Avaible on <strong>{{slot.expiration|date:"M-d"}}</strong> in <strong>{{slot.expiration|TimeDifference}}</strong></td>
   </tr>
   {% else %}
   <tr class="freeslot">
-  <td class="middle"><h4><strong>${{slot}}/w</h4></strong></td>
-  <td class="middle">Avaible</td>
+    <td class="middle"><h4><strong>${{slot}}/w</h4></strong></td>
+    <td class="middle">Avaible<br>
+      <form method="POST" action="/advertise/buy/">{% csrf_token %}
+        <input type="hidden" value="{{slot}}" name="price"></input>
+        <input type="hidden" value="1" name="place"></input>
+        <button class="btn btn-green btn-md btn-block" type="submit" name="submit"><strong>Buy ad now</strong></button>
+      </form>
+    </td>
   </tr>
   {% endif %}
   {% endfor %}

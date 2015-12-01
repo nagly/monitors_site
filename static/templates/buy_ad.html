@@ -1,14 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
-<p>Place: {{place}}</p>
-<p>Price: {{price|floatformat:"2"}}</p>
-<form action="" enctype="multipart/form-data" method="post">{% csrf_token %}
-  {{ form.as_p }}
-  <input type="hidden" value="{{price}}" name="price"></input>
-  <input type="hidden" value="{{place}}" name="place"></input>
-  <input type="submit" value="Next step" class="btn btn-lg btn-primary btn-block" />
-</form>
-
+<div class="row">
+  <div class="col-xs-12 col-sm-6 col-sm-offset-3">
+    <form action="" enctype="multipart/form-data" method="post">{% csrf_token %}
+      {{ form.as_p }}
+      <input id="price" type="hidden" value="{{price}}" name="price"></input>
+      <input type="hidden" value="{{place}}" name="place"></input>
+      <label id="paragraf"></label>
+      <input type="submit" value="Next step" class="btn btn-lg btn-primary btn-block" />
+    </form>
+  </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
@@ -17,4 +19,18 @@
       $(".errorlist").hide();
   });
 </script>
+<script>
+  var price = $("#price").val()
+  $( "#weeks" ).click(function() {
+    var weeks = $("#weeks").val();
+    $("#price").val(weeks*price);
+    $( "#paragraf" ).text("Total price: $" + String(weeks*price));
+  }).click();
+  $( "#weeks" ).keyup(function() {
+    var weeks = $("#weeks").val();
+    $("#price").val(weeks*price);
+    $( "#paragraf" ).text("Total price: $" + String(weeks*price));
+  }).keyup();
+</script>
+
 {% endblock %}

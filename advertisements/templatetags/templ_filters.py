@@ -4,9 +4,7 @@ register = template.Library()
 
 @register.filter
 def TimeDifference(value):
-    
     from django.utils import timezone
-
 
     delta = value - timezone.now()
     if delta.days >= 2:
@@ -20,3 +18,7 @@ def TimeDifference(value):
     else:
         return str(delta.seconds/60) + ' minutes'
     return defaultfilters.date(value)
+
+@register.filter
+def multiply(value, arg):
+    return value*arg

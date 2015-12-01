@@ -9,14 +9,25 @@ from advertisements.forms import AdForm
 
 
 def advertise(request):
-	left_ads = Ad.objects.filter(place='1')
-	slots = [i for i in range(30,40,2)]
-	for i in range(len(slots)):
-		for j in range(len(left_ads)):
-			if left_ads[j].price == slots[i]:
-				slots[i] = left_ads[j]
+	now = timezone.now()
+	minimum = 20
+	maximum = 40
+	interval = 4
+	slots = [i for i in range(minimum,maximum+1,interval)]
+	price_list = list(Ad.objects.filter(place='1').order_by('price').values_list('price', flat=True))
+	all_slots = slots + price_list
+	all_slots = set(all_slots)
+	all_slots = list(all_slots)
+	all_slots.sort()
+	for index, item in enumerate(all_slots):
+		try:
+			obj = Ad.objects.get(price=item)
+		except:
+			obj = item
+		all_slots[index] = obj
+	slots = all_slots
 	if isinstance(slots[len(slots)-1], int) == False:
-		slots.append(int(slots[len(slots)-1].price + 2))
+		slots.append(int(slots[len(slots)-1].price + interval))
 	slots = slots[::-1]
 	context = {'slots':slots}
 	template = "advertise.html"

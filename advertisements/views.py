@@ -13,9 +13,27 @@ def advertise(request):
 	minimum = 20
 	maximum = 40
 	interval = 4
-	slots = [i for i in range(minimum,maximum+1,interval)]
-	price_list = list(Ad.objects.filter(place='1').order_by('price').values_list('price', flat=True))
-	all_slots = slots + price_list
+	maximum_left = maximum
+	maximum_right = maximum
+
+	price_list_left = list(Ad.objects.filter(place='1').order_by('price').values_list('price', flat=True))
+	price_list_right = list(Ad.objects.filter(place='2').order_by('price').values_list('price', flat=True))
+
+	try:
+		if maximum_left < max(price_list_left):
+			maximum_left = max(price_list_left)
+	except ValueError: #if price_list_left is an empty list
+		pass
+	try:
+		if maximum_right < max(price_list_right):
+			maximum_right = max(price_list_right)
+	except ValueError:
+		pass
+
+	slots_left = [i for i in range(minimum,int(maximum_left)+1,interval)]
+	slots_right = [i for i in range(minimum,int(maximum_right)+1,interval)]
+	# prepare all left slots
+	all_slots = slots_left + price_list_left
 	all_slots = set(all_slots)
 	all_slots = list(all_slots)
 	all_slots.sort()
@@ -25,11 +43,27 @@ def advertise(request):
 		except:
 			obj = item
 		all_slots[index] = obj
-	slots = all_slots
-	if isinstance(slots[len(slots)-1], int) == False:
-		slots.append(int(slots[len(slots)-1].price + interval))
-	slots = slots[::-1]
-	context = {'slots':slots}
+	slots_left = all_slots
+	if isinstance(slots_left[len(slots_left)-1], int) == False:
+		slots_left.append(int(slots_left[len(slots_left)-1].price + interval))
+	slots_left = slots_left[::-1]
+	# prepare all right slots
+	all_slots = slots_right + price_list_right
+	all_slots = set(all_slots)
+	all_slots = list(all_slots)
+	all_slots.sort()
+	for index, item in enumerate(all_slots):
+		try:
+			obj = Ad.objects.get(price=item)
+		except:
+			obj = item
+		all_slots[index] = obj
+	slots_right = all_slots
+	if isinstance(slots_right[len(slots_right)-1], int) == False:
+		slots_right.append(int(slots_right[len(slots_right)-1].price + interval))
+	slots_right = slots_right[::-1]
+
+	context = {'slots_left':slots_left,'slots_right':slots_right}
 	template = "advertise.html"
 	return render(request, template, context)
 

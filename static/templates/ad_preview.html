@@ -2,10 +2,10 @@
 
 
 {% block content %}
-<p>Duration (weeks): {{ad.weeks}}</p>
-<p>Summary: {{ad.price}}</p>
-<p>Preview:</p>
-<p><img src="/media/{{ad.image}}"/></p>
+<strong><p>Duration (weeks): {{ad.weeks}}</p></strong>
+<strong><p>Total price: ${{ad.price|floatformat:"2"}}</p></strong>
+<strong><p>Preview:</p></strong>
+<strong><p><img src="/media/{{ad.image}}"/></p>
 <div class="row">
     <div class="col-xs-6">
         <form action="/delete_ad/{{ad.id}}/" method="POST">{% csrf_token %}

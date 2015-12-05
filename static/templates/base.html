@@ -22,7 +22,13 @@
     <div id="top-gradient">
       <div class="container">
         <div class="col-sm-5 hidden-xs"><img src="/static/img/logo_alfa.png" style="width:100%; max-width:300px;margin-bottom:5px;"/></div>
-        <div class="col-xs-12 col-sm-7 text-center"><img src="/static/img/small.gif" class="media-object a468"><div class="clearfix"></div>yolo</div>
+        <div class="col-xs-12 col-sm-7 text-center">
+          {% if random_ad_3 %}
+          <a href="{{random_ad_3.url}}" target="_blank"><img src="/media/{{random_ad_3.image}}" class="media-object a468" /></a>
+          {% else %}
+          <a href="/advertisement/a/"><img src="/static/img/a.png" class="media-object a468" /></a>
+          {% endif %}
+        </div>
       </div>
     </div>
     
@@ -84,7 +90,13 @@
           </div>
         </div>      
       {% block content %}{% endblock %}      
-        <div class="row"><div class="col-xs-12"><img src="/static/img/728x90.png" class="media-object a728" alt=""></div></div>
+        <div class="col-xs-12 col-sm-7 text-center">
+          {% if random_ad_4 %}
+          <a href="{{random_ad_4.url}}" target="_blank"><img src="/media/{{random_ad_4.image}}" class="media-object a728" /></a>
+          {% else %}
+          <a href="/advertise/"><img src="/static/img/a.png" class="media-object a728" /></a>
+          {% endif %}
+        </div>
       
       </div><!-- end col 8 -->
             
@@ -103,8 +115,14 @@
   <footer>
     <div class="container">
       <div class="col-xs-12 col-sm-5" style="text-align:justify;">Disclaimer: We do not promote any programs listed here. The information is for your own use. Bear in mind that all HYIPs investments presuppose high risks. Do not spend what you can not afford to lose! Click here to read our Disclaimer.</div>
-      <div class="col-xs-12 col-sm-7 text-center"><img src="/static/img/small.gif" class="media-object a468"><div class="clearfix"></div>yolo</div>
+      <div class="col-xs-12 col-sm-7 text-center">
+        {% if random_ad_5 %}
+        <a href="{{random_ad_5.url}}" target="_blank"><img src="/media/{{random_ad_5.image}}" class="media-object a468" /></a>
+        {% else %}
+        <a href="/advertise/"><img src="/static/img/a.png" class="media-object a468" /></a>
+        {% endif %}
       </div>
+    </div>
   </footer>
 
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

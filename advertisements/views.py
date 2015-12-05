@@ -63,7 +63,38 @@ def advertise(request):
 		slots_right.append(int(slots_right[len(slots_right)-1].price + interval))
 	slots_right = slots_right[::-1]
 
-	context = {'slots_left':slots_left,'slots_right':slots_right}
+	top_small_banners = len(list(Ad.objects.filter(place='3')))
+	try:
+		top_small_fastest_av = Ad.objects.filter(place='3').order_by('expiration')[0]
+	except:
+		top_small_fastest_av = None
+	bottom_big_banners = len(list(Ad.objects.filter(place='4')))
+	try:
+		bottom_big_fastest_av = Ad.objects.filter(place='4').order_by('expiration')[0]
+	except:
+		bottom_big_fastest_av = None
+	bottom_small_banners = len(list(Ad.objects.filter(place='5')))
+	try:
+		bottom_small_fastest_av = Ad.objects.filter(place='3').order_by('expiration')[0]
+	except:
+		bottom_small_fastest_av = None
+	max_rotation = 2
+	top_s_price = 25
+	bottom_s_price = 20
+	bottom_b_price = 30
+
+	context = {'slots_left':slots_left,'slots_right':slots_right,
+				'top_small_banners_av':max_rotation-top_small_banners,
+				'bottom_small_banners_av':max_rotation-bottom_small_banners,
+				'bottom_big_banners_av':max_rotation-bottom_big_banners,
+				'max_rotation':max_rotation,
+				'top_s_price':top_s_price,
+				'bottom_b_price':bottom_b_price,
+				'bottom_s_price':bottom_s_price,
+				'top_small_fastest_av':top_small_fastest_av,
+				'bottom_big_fastest_av':bottom_big_fastest_av,
+				'bottom_small_fastest_av':bottom_small_fastest_av}
+
 	template = "advertise.html"
 	return render(request, template, context)
 

@@ -1,8 +1,36 @@
 {% extends "base.html" %}
 {% load templ_filters %}
 {% block content %}
+<div class="nbox">
+<div class="nbox-title">
+
+<div class="row">
+  <div class="col-xs-12">
+    <h4><center>Top 468x60 banner</center></h4>
+    <table class="table table-bordered text-center">
+      <tr class="{% if top_small_banners_av == 0 %}notfreeslot{% else %}freeslot{% endif %}">
+        <td class="middle">
+          <h4><strong>${{top_s_price|floatformat:"0"}}/w</strong></h4>
+        </td>
+        <td>Avaible slots: <strong>{{top_small_banners_av}}/{{max_rotation}}</strong><br><br>
+          {% if top_small_banners_av == 0 %}
+          Next availble slot on {{top_small_fastest_av.expiration|date:"M-d"}}
+          {% else %}
+          <form method="POST" action="/advertise/buy/">{% csrf_token %}
+            <input type="hidden" value="{{top_s_price}}" name="price"></input>
+            <input type="hidden" value="3" name="place"></input>
+            <button class="btn btn-green btn-md btn-block" type="submit" name="submit"><strong>Buy ad now</strong></button>
+          </form>
+          {% endif %}
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+
 <div class="row">
   <div class="col-xs-6">
+    <span class="glyphicon glyphicon-arrow-left"></span> Left side ads
     <table class="table table-bordered text-center">
       {% for slot in slots_left %}
       {% if slot.price %}
@@ -27,16 +55,16 @@
   </div>
 
   <div class="col-xs-6">
+    <span class="pull-right">Right side ads <span class="glyphicon glyphicon-arrow-right"></span></span>
     <table class="table table-bordered text-center">
       {% for slot in slots_right %}
       {% if slot.price %}
       <tr class="notfreeslot">
-        <td class="middle"><h4><strong>${{slot.price|floatformat:"0"}}/w</strong></h4></td>
         <td class="middle">Avaible on <strong>{{slot.expiration|date:"M-d"}}</strong> in <strong>{{slot.expiration|TimeDifference}}</strong></td>
+        <td class="middle"><h4><strong>${{slot.price|floatformat:"0"}}/w</strong></h4></td>
       </tr>
       {% else %}
       <tr class="freeslot">
-        <td class="middle"><h4><strong>${{slot}}/w</h4></strong></td>
         <td class="middle">Avaible<br>
           <form method="POST" action="/advertise/buy/">{% csrf_token %}
             <input type="hidden" value="{{slot}}" name="price"></input>
@@ -44,10 +72,62 @@
             <button class="btn btn-green btn-md btn-block" type="submit" name="submit"><strong>Buy ad now</strong></button>
           </form>
         </td>
+        <td class="middle"><h4><strong>${{slot}}/w</h4></strong></td>
       </tr>
       {% endif %}
       {% endfor %}
     </table>
   </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-12">
+    <h4><center>Bottom 728x90 banner</center></h4>
+    <table class="table table-bordered text-center">
+      <tr class="{% if bottom_big_banners_av == 0 %}notfreeslot{% else %}freeslot{% endif %}">
+        <td class="middle">
+          <h4><strong>${{bottom_b_price|floatformat:"0"}}/w</strong></h4>
+        </td>
+        <td>Avaible slots: <strong>{{bottom_big_banners_av}}/{{max_rotation}}</strong><br><br>
+          {% if bottom_big_banners_av == 0 %}
+          Next availble slot on {{bottom_big_fastest_av.expiration|date:"M-d"}}
+          {% else %}
+          <form method="POST" action="/advertise/buy/">{% csrf_token %}
+            <input type="hidden" value="{{bottom_b_price}}" name="price"></input>
+            <input type="hidden" value="4" name="place"></input>
+            <button class="btn btn-green btn-md btn-block" type="submit" name="submit"><strong>Buy ad now</strong></button>
+          </form>
+          {% endif %}
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-12">
+    <h4><center>Bottom 468x60 banner</center></h4>
+    <table class="table table-bordered text-center">
+      <tr class="{% if bottom_small_banners_av == 0 %}notfreeslot{% else %}freeslot{% endif %}">
+        <td class="middle">
+          <h4><strong>${{bottom_s_price|floatformat:"0"}}/w</strong></h4>
+        </td>
+        <td>Avaible slots: <strong>{{bottom_small_banners_av}}/{{max_rotation}}</strong><br><br>
+          {% if bottom_small_banners_av == 0 %}
+          Next availble slot on {{bottom_small_fastest_av.expiration|date:"M-d"}}
+          {% else %}
+          <form method="POST" action="/advertise/buy/">{% csrf_token %}
+            <input type="hidden" value="{{bottom_s_price}}" name="price"></input>
+            <input type="hidden" value="5" name="place"></input>
+            <button class="btn btn-green btn-md btn-block" type="submit" name="submit"><strong>Buy ad now</strong></button>
+          </form>
+          {% endif %}
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+</div>
 </div>
 {% endblock %}

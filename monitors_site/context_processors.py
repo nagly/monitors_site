@@ -19,3 +19,18 @@ def random_ad(request):
 		random_ad_5 = None
 	
 	return {'random_ad_3': random_ad_3, 'random_ad_4': random_ad_4, 'random_ad_5': random_ad_5}
+
+def side_ads(request):
+	from advertisements.models import Ad
+	from django.utils import timezone
+	now = timezone.now()
+	try:
+		left_ads = Ad.objects.filter(place='1', expiration__gt=now).order_by('-price')
+	except:
+		left_ads = None
+	try:
+		right_ads = Ad.objects.filter(place='2', expiration__gt=now).order_by('-price')
+	except:
+		right_ads = None
+
+	return {'right_ads' : right_ads, 'left_ads' : left_ads}

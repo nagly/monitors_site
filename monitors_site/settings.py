@@ -68,6 +68,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'monitors_site.context_processors.current_url',
                 'monitors_site.context_processors.random_ad',
+                'monitors_site.context_processors.side_ads',
             ],
         },
     },

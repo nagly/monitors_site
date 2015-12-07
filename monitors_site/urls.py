@@ -26,7 +26,7 @@ urlpatterns = [
     url(r'^details/(?P<hyip_id>.+)/$', views.show_hyip),
     url(r'^search/$', views.search),
     url(r'^search_results/$', views.search_results),
-    url(r'^advertise/$', 'advertisements.views.advertise'),
+    url(r'^advertise/$', 'advertisements.views.advertise', name='advertise'),
     url(r'^advertise/buy/$', 'advertisements.views.buy_ad', name='buy_ad'),
     url(r'^advertise/(?P<id>.+)/$', 'advertisements.views.preview'),
     url(r'^delete_ad/(?P<ad_id>.+)/$', 'advertisements.views.delete_ad'),

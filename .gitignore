@@ -2,3 +2,4 @@
 *~
 *.sql
 manage.py
+sensitive_data.py

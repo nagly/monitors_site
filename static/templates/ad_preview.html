@@ -20,9 +20,9 @@
             <input type="hidden" name="PAYMENT_AMOUNT" value="{{ad.price|floatformat:2}}"> <!-- {{price_pm|floatformat:2}} -->
             <input type="hidden" name="PAYMENT_UNITS" value="USD">
             <input type="hidden" name="PAYMENT_ID" value="{{ad.unique_id}}">
-            <input type="hidden" name="STATUS_URL" value="/status/">
-            <input type="hidden" name="PAYMENT_URL" value="/payment/">
-            <input type="hidden" name="NOPAYMENT_URL" value="/nopayment/{{ad.unique_id}}/">
+            <input type="hidden" name="STATUS_URL" value="/status/"> <!-- won't work till put full url "http://www.example.com/status/" on production server -->
+            <input type="hidden" name="PAYMENT_URL" value="/payment/"><!-- won't work till put full url "http://www.example.com/payment/" on production server -->
+            <input type="hidden" name="NOPAYMENT_URL" value="/nopayment/{{ad.unique_id}}/"><!-- won't work till put full url "http://www.example.com/nopayment/{{ad.unique_id}}" on production server -->
             <input type="hidden" name="SUGGESTED_MEMO" value="HyipWeb.com advertisement">
             <input type="submit" name="PAYMENT_METHOD" value="Continue with Perfect Money" class="btn btn-lg btn-primary btn-block">
         </p>

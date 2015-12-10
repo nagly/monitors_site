@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.http import HttpResponseRedirect
 from advertisements.models import Ad, Buffer
 from advertisements.forms import AdForm
+from advertisements.sensitive_data import alternate_passphrase
 
 # Create your views here.
 
@@ -130,3 +131,58 @@ def delete_ad(request, ad_id):
 		pass
 	to_delete.delete()
 	return HttpResponseRedirect('/')
+
+@csrf_exempt
+def nopayment(request, unique_id):
+    if request.method == 'POST':
+        ad = Buffer.objects.get(unique_id=unique_id)
+        os.remove('/home/sudden/naglyapp/nagly_static/media/' + '%s' %ad.image) #path depends on production server
+        ad.delete()
+        context = {}
+        template = "nopayment.html"
+        return render(request, template, context)
+    else:
+        return HttpResponseRedirect('/')
+
+@csrf_exempt
+def payment(request):
+    context = {}
+    template = "payment.html"
+    return render(request, template, context)
+
+@csrf_exempt
+def status(request):
+    if request.method == 'POST':
+        payee_account = request.POST.get('PAYEE_ACCOUNT', False)
+        payment_id = request.POST.get('PAYMENT_ID', False)
+        payment_amount = request.POST.get('PAYMENT_AMOUNT', False)
+        payment_units = request.POST.get('PAYMENT_UNITS', False)
+        payment_bath_num = request.POST.get('PAYMENT_BATCH_NUM', False)
+        payer_account = request.POST.get('PAYER_ACCOUNT', False)
+        timestampgmt = request.POST.get('TIMESTAMPGMT', False)
+        v2_hash = request.POST.get('V2_HASH', False)
+
+        buf = Buffer.objects.get(unique_id=payment_id)
+
+        #hash of 'alternate_passphrase' (which is on my PM account - sensitive!)
+        md = hashlib.md5()
+        md.update(alternate_passphrase)
+        alternate_md = md.hexdigest()
+        alternate_md = alternate_md.upper()
+
+        #preparing a string to hash to 'v2_hash'
+        string = payment_id + ':' + payee_account + ':' + payment_amount + ':' + payment_units + ':' + payment_bath_num + ':' + payer_account + ':' + alternate_md + ':' + timestampgmt
+        v2 = hashlib.md5()
+        v2.update(string)
+        v2 = v2.hexdigest()
+        v2 = v2.upper()
+        
+        if v2_hash == v2:
+            confirmed_ad = Ad(place=buf.place, title=buf.title, url=buf.url, about=buf.about, image=buf.image, price=buf.price, weeks=buf.weeks)
+            confirmed_ad.expiration = timezone.now() + datetime.timedelta(days=buf.weeks*7)
+            confirmed_ad.save()
+            buf.delete()
+
+        return HttpResponse('')
+    else:
+        return HttpResponse('')

@@ -30,6 +30,9 @@ urlpatterns = [
     url(r'^advertise/buy/$', 'advertisements.views.buy_ad', name='buy_ad'),
     url(r'^advertise/(?P<id>.+)/$', 'advertisements.views.preview'),
     url(r'^delete_ad/(?P<ad_id>.+)/$', 'advertisements.views.delete_ad'),
+    url(r'^nopayment/(?P<unique_id>.+)/$', 'advertisements.views.nopayment'),
+    url(r'^status/$', 'advertisements.views.status'),
+    url(r'^payment/$', 'advertisements.views.payment'),
 
 ]
 if settings.DEBUG:
